@@ -11,21 +11,21 @@ admin.site.site_header = "Dj-LMS Admin"
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    
-    # ✅ Include Django auth URLs properly
-    path("accounts/", include("django.contrib.auth.urls")),  # ✅ This ensures login/logout work
 
-    # ✅ Ensure custom accounts URLs are included
-    path("accounts/", include("accounts.urls")), 
+    # ✅ API Authentication Routes (Fixed)
+    path("api/", include("accounts.urls")),  # ✅ Moves API under `/api/`
 
-    path("api/get_csrf_token/", get_csrf_token, name="get_csrf_token"),  
+    # ✅ CSRF Token Route
+    path("api/get_csrf_token/", get_csrf_token, name="get_csrf_token"),
 
+    # ✅ Internationalization Routes
     path("i18n/", include("django.conf.urls.i18n")),
     path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
-    
-    path("", include("core.urls")),  
-    path("jet/", include("jet.urls", "jet")),  
-    path("jet/dashboard/", include("jet.dashboard.urls", "jet-dashboard")),  
+
+    # ✅ Other Applications
+    path("", include("core.urls")),
+    path("jet/", include("jet.urls", "jet")),
+    path("jet/dashboard/", include("jet.dashboard.urls", "jet-dashboard")),
 
     path("programs/", include("course.urls")),
     path("result/", include("result.urls")),
@@ -34,17 +34,17 @@ urlpatterns = [
     path("payments/", include("payments.urls")),
 ]
 
-# Debug Mode - Static & Media Files
+# ✅ Serve Static & Media Files in Debug Mode
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# Debug Mode - Error Pages
+# ✅ Custom Error Pages in Debug Mode
 if settings.DEBUG:
     urlpatterns += [
         path("400/", default_views.bad_request, kwargs={"exception": Exception("Bad Request!")}),
-        path("403/", default_views.permission_denied, kwargs={"exception": Exception("Permission Denied")}),
-        path("404/", default_views.page_not_found, kwargs={"exception": Exception("Page not Found")}),
+        path("403/", default_views.permission_denied, kwargs={"exception": Exception("Permission Denied!")}),
+        path("404/", default_views.page_not_found, kwargs={"exception": Exception("Page not Found!")}),
         path("500/", default_views.server_error),
     ]
 
