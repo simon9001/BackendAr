@@ -141,9 +141,12 @@ CSRF_COOKIE_SECURE = False
  # Allow all API requests (for testing)
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
-    "http://localhost:8000"
+    "http://localhost:8000",
+    "https://backendar.onrender.com",
     ]  # Ensure API calls are allowed
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 
+CORS_ALLOW_HEADERS = ["Content-Type", "Authorization"]
 # REST Framework Settings
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
