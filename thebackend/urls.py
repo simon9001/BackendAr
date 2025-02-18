@@ -1,19 +1,3 @@
-"""
-URL configuration for thebackend project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -27,17 +11,19 @@ admin.site.site_header = "Dj-LMS Admin"
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-
-
     
-    # ✅ Keep API Routes Only
-    path("", include("accounts.urls")), 
-    path("api/get_csrf_token/", get_csrf_token, name="get_csrf_token"),  # Ensure CSRF token retrieval
+    # ✅ Include Django auth URLs properly
+    path("accounts/", include("django.contrib.auth.urls")),  # ✅ This ensures login/logout work
+
+    # ✅ Ensure custom accounts URLs are included
+    path("accounts/", include("accounts.urls")), 
+
+    path("api/get_csrf_token/", get_csrf_token, name="get_csrf_token"),  
 
     path("i18n/", include("django.conf.urls.i18n")),
     path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
     
-    path("", include("core.urls")),  # Core application
+    path("", include("core.urls")),  
     path("jet/", include("jet.urls", "jet")),  
     path("jet/dashboard/", include("jet.dashboard.urls", "jet-dashboard")),  
 
@@ -47,9 +33,6 @@ urlpatterns = [
     path("quiz/", include("quiz.urls")),
     path("payments/", include("payments.urls")),
 ]
-
-# ✅ Remove this line because it duplicates authentication endpoints:
-# path("accounts/", include("accounts.urls"))  🚨 REMOVE THIS LINE
 
 # Debug Mode - Static & Media Files
 if settings.DEBUG:
