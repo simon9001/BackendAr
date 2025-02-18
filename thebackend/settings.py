@@ -126,7 +126,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware"
 
 ]
 
@@ -142,11 +142,9 @@ CSRF_COOKIE_SECURE = False
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",
-    "https://backendar.onrender.com",
+    "https://backendar.onrender.com"
     ]  # Ensure API calls are allowed
-CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 
-CORS_ALLOW_HEADERS = ["Content-Type", "Authorization"]
 # REST Framework Settings
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [

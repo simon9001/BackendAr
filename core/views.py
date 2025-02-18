@@ -6,6 +6,11 @@ from accounts.decorators import admin_required, lecturer_required
 from accounts.models import User, Student
 from .forms import SessionForm, SemesterForm, NewsAndEventsForm
 from .models import NewsAndEvents, ActivityLog, Session, Semester
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from core.models import MeetingHistory
+from core.tasks import store_meeting_history
 
 
 # ########################################################
@@ -19,6 +24,29 @@ def home_view(request):
         "items": items,
     }
     return render(request, "core/index.html", context)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_meetings(request):
+    user_id = request.user.id
+    meetings = MeetingHistory.objects.filter(user_id=user_id).values()
+    return Response(list(meetings), status=200)
+
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def add_meeting(request):
+    user_id = request.user.id
+    meeting_name = request.data.get("meeting_name")
+
+    if not meeting_name:
+        return Response({"error": "Meeting name is required"}, status=400)
+
+    store_meeting_history.delay(user_id, meeting_name)  # Call Celery Task
+
+    return Response({"message": "Meeting is being stored in the background!"})
 
 
 @login_required
