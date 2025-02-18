@@ -17,6 +17,8 @@ urlpatterns = [
 
     # ✅ CSRF Token Route
     path("api/get_csrf_token/", get_csrf_token, name="get_csrf_token"),
+    path("accounts/", include("django.contrib.auth.urls")),  # ✅ This includes the login view
+
 
     # ✅ Internationalization Routes
     path("i18n/", include("django.conf.urls.i18n")),
