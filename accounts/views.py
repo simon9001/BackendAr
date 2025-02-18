@@ -60,7 +60,6 @@ from django.http import JsonResponse
 
 
 
-
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_csrf_token(request):

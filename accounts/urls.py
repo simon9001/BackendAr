@@ -32,11 +32,12 @@ from .views import (
 from .forms import EmailValidationOnForgotPassword
 
 urlpatterns = [
-    path("", include("django.contrib.auth.urls")),    
-    path("login/", login_user, name="api_login"),
-    path("register/", register_user, name="api_register"),
-    path("logout/", logout_user, name="api_logout"),
-    
+    path("", include("django.contrib.auth.urls")),  
+
+    # ✅ API Authentication Routes (Fixed)
+    path("api/register/", register_user, name="api_register"),
+    path("api/login/", login_user, name="api_login"),
+    path("api/logout/", logout_user, name="api_logout"),
 
     # ✅ CSRF Token Route (Fixed)
     path("api/get_csrf_token/", get_csrf_token, name="get_csrf_token"),
