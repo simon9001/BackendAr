@@ -109,13 +109,18 @@ def login_user(request):
     if user is not None:
         refresh = RefreshToken.for_user(user)
         login(request, user)
+
+        # Use the updated serializer that includes `role`
+        user_data = UserSerializer(user).data
+        
         return Response({
             'refresh': str(refresh),
             'access': str(refresh.access_token),
-            'user': UserSerializer(user).data,
+            'user': user_data,  # This will now include `role`
         })
     
     return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 @csrf_exempt
 @api_view(['POST'])
