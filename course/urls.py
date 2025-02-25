@@ -1,9 +1,14 @@
 from django.urls import path
 from .views import *
+from .views import ProgramListView, CourseListView, CourseDetailView, CourseAllocationView
 
 
 urlpatterns = [
     # Program urls
+    path('api/programs/', ProgramListView.as_view(), name="program-list"),
+    path('api/courses/', CourseListView.as_view(), name="course-list"),
+    path('api/courses/<slug:slug>/', CourseDetailView.as_view(), name="course-detail"),
+    path('api/course_allocations/', CourseAllocationView.as_view(), name="course-allocation"),
     path("", ProgramFilterView.as_view(), name="programs"),
     path("<int:pk>/detail/", program_detail, name="program_detail"),
     path("add/", program_add, name="add_program"),

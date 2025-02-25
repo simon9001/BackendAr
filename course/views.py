@@ -23,6 +23,27 @@ from .forms import (
 )
 from .filters import ProgramFilter, CourseAllocationFilter
 from .models import Program, Course, CourseAllocation, Upload, UploadVideo
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+from .models import Program, Course, CourseAllocation
+from .serializers import ProgramSerializer, CourseSerializer, CourseAllocationSerializer
+
+class ProgramListView(ListAPIView):
+    queryset = Program.objects.all()
+    serializer_class = ProgramSerializer
+
+class CourseListView(ListAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+class CourseDetailView(RetrieveAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    lookup_field = "slug"
+
+class CourseAllocationView(ListAPIView):
+    queryset = CourseAllocation.objects.all()
+    serializer_class = CourseAllocationSerializer
+
 
 
 @method_decorator([login_required, lecturer_required], name="dispatch")
