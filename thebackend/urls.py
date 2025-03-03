@@ -13,7 +13,7 @@ urlpatterns = [
     
     # ✅ Keep API Routes Only
     path("", include("accounts.urls")), 
-    path("api/", include("course.urls")),
+    path("", include("course.urls")),
     path("api/get_csrf_token/", get_csrf_token, name="get_csrf_token"),  # Ensure CSRF token retrieval
 
     path("i18n/", include("django.conf.urls.i18n")),
